@@ -30,7 +30,10 @@ fs.readFile(__filename, "utf8", (err, data) => {
   if (err) {
     console.error("Error reading file:", err);
   } else {
-    console.log("File read successfully (first 100 chars):", data.substring(0, 100));
+    console.log(
+      "File read successfully (first 100 chars):",
+      data.substring(0, 100)
+    );
   }
 });
 
@@ -38,7 +41,10 @@ fs.readFile(__filename, "utf8", (err, data) => {
 console.log("\n--- Reading File (Sync) ---");
 try {
   const data = fs.readFileSync(__filename, "utf8");
-  console.log("File read synchronously (first 100 chars):", data.substring(0, 100));
+  console.log(
+    "File read synchronously (first 100 chars):",
+    data.substring(0, 100)
+  );
 } catch (err) {
   console.error("Error:", err);
 }
@@ -109,7 +115,10 @@ console.log("Original path:", filePath);
 console.log("Directory name:", path.dirname(filePath));
 console.log("File name:", path.basename(filePath));
 console.log("File extension:", path.extname(filePath));
-console.log("File name without extension:", path.basename(filePath, path.extname(filePath)));
+console.log(
+  "File name without extension:",
+  path.basename(filePath, path.extname(filePath))
+);
 
 // Joining paths (handles slashes correctly)
 const joinedPath = path.join("/Users", "ahmedelraei", "Documents", "file.txt");
@@ -120,7 +129,9 @@ const resolvedPath = path.resolve("folder", "file.txt");
 console.log("Resolved path:", resolvedPath);
 
 // Normalizing paths (removes redundant separators)
-const normalizedPath = path.normalize("/Users//ahmedelraei/../Documents/file.txt");
+const normalizedPath = path.normalize(
+  "/Users//ahmedelraei/../Documents/file.txt"
+);
 console.log("Normalized path:", normalizedPath);
 
 // Parsing paths
@@ -152,6 +163,8 @@ Path Module Methods:
 - path.isAbsolute() - Check if absolute
 - path.relative() - Get relative path
 `);
+
+// STOP HERE FOR NOW
 
 // ============================================
 console.log("\n=== 4. EVENTS MODULE ===");
@@ -497,5 +510,3 @@ Buffer Module:
 - Binary data handling
 - from, alloc, concat, toString, etc.
 `);
-
-
