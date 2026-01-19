@@ -146,7 +146,10 @@ function getUser(userId) {
 function getPosts(userId) {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve([{ id: 1, title: "Post 1" }, { id: 2, title: "Post 2" }]);
+      resolve([
+        { id: 1, title: "Post 1" },
+        { id: 2, title: "Post 2" },
+      ]);
     }, 500);
   });
 }
@@ -175,6 +178,9 @@ getUser(1)
   })
   .catch((error) => {
     console.error("Error in chain:", error);
+  })
+  .finally(() => {
+    console.log("Finally: Always runs");
   });
 
 // Example 2: Returning values in chain
@@ -318,22 +324,21 @@ const settled1 = Promise.resolve("Success 1");
 const settled2 = Promise.reject("Error 2");
 const settled3 = Promise.resolve("Success 3");
 
-Promise.allSettled([settled1, settled2, settled3])
-  .then((results) => {
-    console.log("All settled:", results);
-    // [
-    //   { status: 'fulfilled', value: 'Success 1' },
-    //   { status: 'rejected', reason: 'Error 2' },
-    //   { status: 'fulfilled', value: 'Success 3' }
-    // ]
-    results.forEach((result, index) => {
-      if (result.status === "fulfilled") {
-        console.log(`Promise ${index + 1} succeeded:`, result.value);
-      } else {
-        console.log(`Promise ${index + 1} failed:`, result.reason);
-      }
-    });
+Promise.allSettled([settled1, settled2, settled3]).then((results) => {
+  console.log("All settled:", results);
+  // [
+  //   { status: 'fulfilled', value: 'Success 1' },
+  //   { status: 'rejected', reason: 'Error 2' },
+  //   { status: 'fulfilled', value: 'Success 3' }
+  // ]
+  results.forEach((result, index) => {
+    if (result.status === "fulfilled") {
+      console.log(`Promise ${index + 1} succeeded:`, result.value);
+    } else {
+      console.log(`Promise ${index + 1} failed:`, result.reason);
+    }
   });
+});
 
 // ============================================
 console.log("\n=== 8. PROMISE.RACE() ===");
@@ -341,17 +346,22 @@ console.log("\n=== 8. PROMISE.RACE() ===");
 // Promise.race() returns the first promise that settles (resolves or rejects)
 
 const race1 = new Promise((resolve) => setTimeout(() => resolve("Fast"), 200));
-const race2 = new Promise((resolve) => setTimeout(() => resolve("Medium"), 500));
+const race2 = new Promise((resolve) =>
+  setTimeout(() => resolve("Medium"), 500)
+);
 const race3 = new Promise((resolve) => setTimeout(() => resolve("Slow"), 1000));
 
-Promise.race([race1, race2, race3])
-  .then((result) => {
-    console.log("Race winner:", result); // "Fast" (first to resolve)
-  });
+Promise.race([race1, race2, race3]).then((result) => {
+  console.log("Race winner:", result); // "Fast" (first to resolve)
+});
 
 // Race with rejection
-const race4 = new Promise((resolve) => setTimeout(() => resolve("Success"), 300));
-const race5 = new Promise((_, reject) => setTimeout(() => reject("Error"), 100));
+const race4 = new Promise((resolve) =>
+  setTimeout(() => resolve("Success"), 300)
+);
+const race5 = new Promise((_, reject) =>
+  setTimeout(() => reject("Error"), 100)
+);
 
 setTimeout(() => {
   Promise.race([race4, race5])
@@ -389,9 +399,15 @@ console.log("\n=== 9. PROMISE.ANY() ===");
 // Promise.any() returns the first promise that fulfills (resolves)
 // Only rejects if all promises reject
 
-const any1 = new Promise((_, reject) => setTimeout(() => reject("Error 1"), 200));
-const any2 = new Promise((resolve) => setTimeout(() => resolve("Success 2"), 300));
-const any3 = new Promise((resolve) => setTimeout(() => resolve("Success 3"), 500));
+const any1 = new Promise((_, reject) =>
+  setTimeout(() => reject("Error 1"), 200)
+);
+const any2 = new Promise((resolve) =>
+  setTimeout(() => resolve("Success 2"), 300)
+);
+const any3 = new Promise((resolve) =>
+  setTimeout(() => resolve("Success 3"), 500)
+);
 
 Promise.any([any1, any2, any3])
   .then((result) => {
@@ -524,10 +540,12 @@ setTimeout(() => {
 // Pattern 2: Sequential execution with reduce
 function sequentialPromises(promises) {
   return promises.reduce((chain, promise) => {
-    return chain.then(() => promise).then((result) => {
-      console.log("Sequential result:", result);
-      return result;
-    });
+    return chain
+      .then(() => promise)
+      .then((result) => {
+        console.log("Sequential result:", result);
+        return result;
+      });
   }, Promise.resolve());
 }
 
@@ -575,11 +593,7 @@ apiRequest("/api/users")
 // Example 2: Parallel data fetching
 setTimeout(() => {
   console.log("\n--- Parallel Data Fetching ---");
-  Promise.all([
-    fetchUser(1),
-    fetchPosts(1),
-    fetchComments(1),
-  ])
+  Promise.all([fetchUser(1), fetchPosts(1), fetchComments(1)])
     .then(([user, posts, comments]) => {
       console.log("All data fetched:");
       console.log("User:", user);
@@ -608,7 +622,11 @@ function callbackVersion() {
             if (error) {
               console.error("Error:", error);
             } else {
-              console.log("Callback version - All data:", { user, posts, comments });
+              console.log("Callback version - All data:", {
+                user,
+                posts,
+                comments,
+              });
             }
           });
         }
@@ -669,4 +687,3 @@ Benefits:
 
 Next: async/await (syntactic sugar for Promises)
 `);
-

@@ -10,4 +10,6 @@ class User {
 }
 
 const u = new User();
-console.log(u);
+const u2 = new User("Ahmed", "ahmed@example.com");
+console.log(u2);
+console.log(u2.welcome());

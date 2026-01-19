@@ -42,7 +42,7 @@ class BankAccount {
 }
 
 const account = new BankAccount("Ahmed", 1000);
-// console.log(account.balance); // 1000 (using getter)
+account.balance = -100;
 
 // console.log(account.deposit(500)); // Deposited 500. New balance: 1500
 // console.log(account.withdraw(200)); // Withdrew 200. New balance: 1300
